@@ -1,0 +1,36 @@
+Sub Template_Bug_New
+  Template_WizardFieldCust_Add ' 由向导添加
+
+  SW_KeepLastValue ("GET")
+  If User.IsInGroup("测试组") Or User.IsInGroup("研发组")Or User.IsInGroup("Project Manager")  Then
+     Bug_Fields("BG_STATUS").Value="新建"
+     Bug_Fields("BG_USER_TEMPLATE_03").Value="0"
+     Bug_Fields("BG_USER_TEMPLATE_12").Value="0"
+     Bug_Fields("BG_USER_TEMPLATE_03").IsReadOnly=True
+     Bug_Fields("BG_USER_TEMPLATE_12").IsReadOnly=True
+     Bug_Fields("BG_DETECTED_BY").IsReadOnly = True
+     Bug_Fields("BG_STATUS").IsReadOnly = True
+     Bug_Fields("BG_DETECTION_DATE").IsReadOnly = True
+  End If
+   If User.IsInGroup("测试组") Then
+        Bug_Fields("BG_STATUS").list = Lists("list1")
+     ElseIf User.IsInGroup("研发组") Then
+        Bug_Fields("BG_STATUS").list = Lists("list1")
+     ElseIf User.IsInGroup("Project Manager") Then
+        Bug_Fields("BG_STATUS").list = Lists("list1")
+   End If
+'设置描述默认字段的大标题颜色  --detected by 杨波   2014-1-21
+  Bug_Fields("BG_DESCRIPTION").Value="<html><body><b><span lang=EN-US style = 'color:#E46C0A'>一、操作步骤：</span></b></body></html>"& vbCrLf & _
+  "<html><body>1.</body></html>"& vbCrLf & _
+  "<html><body>2.</body></html>"& vbCrLf & _
+  "<html><body>3.</body></html>"& vbCrLf & _
+  "<html><body>　</body></html>"& vbCrLf & _
+  "<html><body><b><span lang=EN-US style = 'color:#E46C0A'>二、实际结果：</span></b></body></html>"& vbCrLf & _
+  "<html><body>　</body></html>"& vbCrLf & _
+  "<html><body><b><span lang=EN-US style = 'color:#E46C0A'>三、预期结果：</span></b></body></html>"& vbCrLf & _
+  "<html><body>　</body></html>"& vbCrLf & _
+  vbCrLf & _
+  space(1)& vbCrLf
+
+  On Error GoTo 0
+End Sub

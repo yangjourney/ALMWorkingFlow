@@ -1,0 +1,92 @@
+Sub Template_Bug_MoveTo
+  Template_WizardFieldCust_Details ' 由向导添加
+
+  SW_SetLists_Environment
+
+    If User.IsInGroup("测试组") Or User.IsInGroup("研发组") Or User.IsInGroup("Project Manager") Then
+       Bug_Fields("BG_USER_TEMPLATE_03").IsReadOnly=True
+       Bug_Fields("BG_DETECTION_DATE").IsReadOnly=True
+       Bug_Fields("BG_DETECTED_BY").IsReadOnly = True
+       Bug_Fields("BG_CLOSING_DATE").IsReadOnly = True
+       Bug_Fields("BG_CLOSING_VERSION").IsReadOnly = True
+       Bug_Fields("BG_USER_TEMPLATE_07").IsReadOnly = True
+       Bug_Fields("BG_USER_TEMPLATE_12").IsReadOnly = True
+    End If
+
+    If User.IsInGroup("测试组") Then
+       Bug_Fields("BG_STATUS").list = Lists("list2")
+    ElseIf User.IsInGroup("研发组") Then
+           Bug_Fields("BG_STATUS").list = Lists("list3")
+    ElseIf User.IsInGroup("Project Manager") Then
+           Bug_Fields("BG_STATUS").list=Lists("list6")
+    End If
+
+'延期类超期未处理，系统自动给出提示 DETECTED_BY--Yangbo
+    If (Bug_Fields("BG_STATUS").Value = "延期") and Bug_Fields("BG_USER_TEMPLATE_11").Value <= TDConnection.ServerTime Then
+      If (Bug_Fields("BG_DETECTED_BY").Value=TDConnection.UserName) Or _
+      (Bug_Fields("BG_RESPONSIBLE").Value=TDConnection.UserName) Then
+        msgbox"***缺陷ID【 "&Bug_Fields("BG_BUG_ID").Value & " 】已经超过处理日期！请及时处理！***"
+      End If
+    End If
+    If User.IsInGroup("研发组") Or User.IsInGroup("Project Manager") Then
+           'Bug_Fields("BG_DEV_COMMENTS").IsRequired = True
+           Bug_Fields("BG_DESCRIPTION").IsReadOnly = True
+             If Bug_Fields("BG_USER_TEMPLATE_06").Value = "意见建议" Then
+               Bug_Fields("BG_USER_TEMPLATE_06").IsReadOnly = True
+             End If
+      End If
+
+'判断如果缺陷状态为已关闭或无效，则关闭相关缺陷属性信息的可编辑状态 DETECTED_BY--Yangbo 2013-12-20
+    If USER.IsInGroup("测试组") Or  USER.IsInGroup("研发组") Or  USER.IsInGroup("Project Manager")   Then
+        If Bug_Fields("BG_STATUS").Value = "已关闭" Or Bug_Fields("BG_STATUS").Value = "无效" Then
+          Bug_Fields("BG_ATTACHMENT").IsReadOnly = True
+          Bug_Fields("BG_BUG_ID").IsReadOnly = True
+          Bug_Fields("BG_CLOSING_VERSION").IsReadOnly = True
+          Bug_Fields("BG_DESCRIPTION").IsReadOnly = True
+          Bug_Fields("BG_DETECTED_BY").IsReadOnly = True
+          Bug_Fields("BG_DETECTION_VERSION").IsReadOnly = True
+          Bug_Fields("BG_DEV_COMMENTS").IsReadOnly = True
+          Bug_Fields("BG_PRIOrITY").IsReadOnly = True
+          Bug_Fields("BG_RESPONSIBLE").IsReadOnly = True
+          Bug_Fields("BG_SEVERITY").IsReadOnly = True
+          Bug_Fields("BG_SUMMARY").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_01").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_02").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_03").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_04").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_05").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_06").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_07").IsReadOnly = True
+          Bug_Fields("BG_DETECTION_DATE").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_08").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_09").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_10").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_11").IsReadOnly = True
+          Bug_Fields("BG_USER_TEMPLATE_12").IsReadOnly = True
+          'Bug_Fields("BG_USER_TEMPLATE_15").IsReadOnly = True
+        End If
+     End If
+'判断是否缺陷提交人，如果不是，则不允许修改描述和摘要信息
+     If User.IsInGroup("测试组") Or User.IsInGroup("研发组") Or User.IsInGroup("Project Manager") Then
+           If Bug_Fields("BG_DETECTED_BY").Value <> TDConnection.UserName   Then
+             If Bug_Fields("BG_STATUS").Value = "新建" Or Bug_Fields("BG_STATUS").Value = "打开"_
+             Or Bug_Fields("BG_STATUS").Value = "重新打开" Or Bug_Fields("BG_STATUS").Value = "延期"_
+             Or Bug_Fields("BG_STATUS").Value = "已修复" Then
+                Bug_Fields("BG_ATTACHMENT").IsReadOnly = True
+                Bug_Fields("BG_DESCRIPTION").IsReadOnly = True
+                Bug_Fields("BG_SUMMARY").IsReadOnly = True
+                Bug_Fields("BG_USER_TEMPLATE_01").IsReadOnly = True
+                Bug_Fields("BG_USER_TEMPLATE_02").IsReadOnly = True
+                Bug_Fields("BG_USER_TEMPLATE_05").IsReadOnly = True
+                Bug_Fields("BG_DETECTION_VERSION").IsReadOnly = True
+                Bug_Fields("BG_USER_TEMPLATE_13").IsReadOnly = True
+                Bug_Fields("BG_USER_TEMPLATE_14").IsReadOnly = True
+                'Bug_Fields("BG_USER_TEMPLATE_15").IsReadOnly = True
+                Bug_Fields("BG_DETECTION_DATE").IsReadOnly = True
+             End If
+           End If
+     End If
+
+  On Error GoTo 0
+
+End Sub

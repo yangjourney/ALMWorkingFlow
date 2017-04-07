@@ -1,0 +1,9 @@
+Sub Template_SetFieldApp( FieldName, Vis, Req, PNo, VOrder )
+  '设置字段的外观
+  With Bug_Fields(FieldName)
+    .IsVisible = Vis
+    .IsRequired = Req
+    .PageNo = PNo
+    .ViewOrder = VOrder
+  End With
+End Sub

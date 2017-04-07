@@ -1,0 +1,17 @@
+'**********设置已经关闭的缺陷不可以删除附件(管理员除外) *******************
+
+Function Attachment_CanDelete(Attachment)
+On Error Resume Next
+  if  Bug_Fields("BG_STATUS")="已关闭" then
+     if User.IsInGroup("TDAdmin") then
+         Attachment_CanDelete = DefaultRes
+     else
+       msgbox '"  已经关闭的缺陷不可以删除附件！"
+
+       Attachment_CanDelete = false
+     end if
+  else
+     Attachment_CanDelete = DefaultRes
+  end if
+  On Error GoTo 0
+End Function

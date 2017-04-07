@@ -1,0 +1,21 @@
+'*******************************************************
+Function Bug_CanPost
+  Bug_CanPost = False
+
+On Error Resume Next
+
+If Bug_Fields("BG_STATUS").IsModified and _
+   ( Bug_Fields("BG_STATUS").Value = "拒绝" or _
+     Bug_Fields("BG_STATUS").Value = "暂缓" or _
+     Bug_Fields("BG_STATUS").Value = "已修正" ) and _
+   not Bug_Fields("BG_DEV_COMMENTS").IsModified then
+   Bug_CanPost = False
+   msgbox "请添加注释！！"& vbcrlf & "已修正：缺陷原因、处理方法、验证版本"& vbcrlf &"拒绝：拒绝原因"& vbcrlf &"暂缓：暂缓原因、暂缓期限"
+Else
+  Bug_CanPost = True
+End If
+
+PrintError "Bug_CanPost"
+
+  On Error GoTo 0
+End Function

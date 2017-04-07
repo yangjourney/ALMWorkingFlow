@@ -1,0 +1,199 @@
+Sub Template_Bug_FieldChange(FieldName)
+  On Error Resume Next
+
+'如果缺陷状态为新建，则自动将测试日期设置为：服务器时间
+  If User.IsInGroup("测试组") And Bug_Fields("BG_STATUS").Value = "新建" Then
+     Bug_Fields("BG_DETECTION_DATE").Value = TDConnection.ServerTime
+  Else
+     Bug_Fields("BG_DETECTION_DATE").Value = Bug_Fields("BG_DETECTION_DATE").Value
+  End If
+
+  '获取列表信息
+  If FieldName = "BG_USER_TEMPLATE_01" Then SW_SetLists_Environment
+  If FieldName = "BG_USER_TEMPLATE_02" Then SW_SetListsII_Environment
+
+  '控制制定字段的属性
+  If Not User.IsInGroup("TDAdmin") Then
+    Bug_Fields("BG_USER_TEMPLATE_03").IsReadOnly=True '重新打开次数
+    Bug_Fields("BG_DETECTION_DATE").IsReadOnly=True  '测试日期
+    Bug_Fields("BG_USER_TEMPLATE_12").IsReadOnly = True '延期次数
+  End If
+
+  Call Bug_FieldChange(FieldName)
+  Call SysName_Version_Dev(_
+       SysName1,SysName2,SysName3,SysName4,SysName5,SysName6,SysName7,SysName8,SysName9,_
+       SysName10,SysName11,SysName12,SysName13,SysName14,SysName15,SysName16,SysName17,_
+       Version1,Version2,Version3,Version4,Version5,Version6,Version7,Version8,Version9,_
+       Version10,Version11,Version12,Version13,Version14,Version15,Version16,Version17,_
+       Dev1,Dev2,Dev3,Dev4,Dev5,Dev6,Dev7,Dev8,Dev9,Dev10,Dev11,Dev12,Dev13,Dev14,Dev15,Dev16,Dev17)
+       'RVersion1,RVersion2,RVersion3,RVersion4,RVersion5,RVersion6,RVersion7,RVersion8,RVersion9,_
+       'RVersion10,RVersion11,RVersion12,RVersion13,RVersion14,RVersion15,RVersion16,RVersion17,_
+'根据系统信息获取用户定义的及系统责任人及负责人初始值
+
+  If FieldName = "BG_USER_TEMPLATE_01" Or FieldName = "BG_STATUS" Then
+     'If Bug_Fields("BG_USER_TEMPLATE_15").Value = "01测试版" Then
+        Select Case Bug_Fields("BG_USER_TEMPLATE_01").Value
+
+               Case SysName1
+                    DevX=Dev1
+                    VersionX=Version1
+               Case SysName2
+                    DevX=Dev2
+                    VersionX=Version2
+               Case SysName3
+                    DevX=Dev3
+                    VersionX=Version3
+               Case SysName4
+                    DevX=Dev4
+                    VersionX=Version4
+               Case SysName5
+                    DevX=Dev5
+                    VersionX=Version5
+               Case SysName6
+                    DevX=Dev6
+                    VersionX=Version6
+               Case SysName7
+                    DevX=Dev7
+                    VersionX=Version7
+               Case SysName8
+                    DevX=Dev8
+                    VersionX=Version8
+               Case SysName9
+                    DevX=Dev9
+                    VersionX=Version9
+               Case SysName10
+                    DevX=Dev10
+                    VersionX=Version10
+               Case SysName11
+                    DevX=Dev11
+                    VersionX=Version11
+               Case SysName12
+                    DevX=Dev12
+                    VersionX=Version12
+               Case SysName13
+                    DevX=Dev13
+                    VersionX=Version13
+               Case SysName14
+                    DevX=Dev14
+                    VersionX=Version14
+               Case SysName15
+                    DevX=Dev15
+                    VersionX=Version15
+               Case SysName16
+                    DevX=Dev16
+                    VersionX=Version16
+               Case SysName17
+                    DevX=Dev17
+                    VersionX=Version17
+               Case Else
+                    Bug_Fields("BG_DETECTION_VERSION").Value = Null
+                    Bug_Fields("BG_RESPONSIBLE").value=Null
+        End Select
+    'ElseIf Bug_Fields("BG_USER_TEMPLATE_15").Value = "02正式版" Then
+        'Select Case Bug_Fields("BG_USER_TEMPLATE_01").Value
+
+               'Case SysName1
+                    'DevX=Dev1
+                    'VersionX=RVersion1
+               'Case SysName2
+                '    DevX=Dev2
+           '         VersionX=RVersion2
+            '   Case SysName3
+             '       DevX=Dev3
+              '      VersionX=RVersion3
+               'Case SysName4
+                '    DevX=Dev4
+                 '   VersionX=RVersion4
+              ' Case SysName5
+               '     DevX=Dev5
+                '    VersionX=RVersion5
+       '        Case SysName6
+        '            DevX=Dev6
+         '           VersionX=RVersion6
+          '     Case SysName7
+           '         DevX=Dev7
+            '        VersionX=RVersion7
+             '  Case SysName8
+              '      DevX=Dev8
+               '     VersionX=RVersion8
+      '         Case SysName9
+       '             DevX=Dev9
+        '            VersionX=RVersion9
+         '      Case SysName10
+          '          DevX=Dev10
+           '         VersionX=RVersion10
+            '   Case SysName11
+             '       DevX=Dev11
+              '      VersionX=Version11
+      '         Case SysName12
+       '             DevX=Dev12
+        '            VersionX=RVersion12
+         '      Case SysName13
+          '          DevX=Dev13
+           '         VersionX=RVersion13
+            '   Case SysName14
+             '       DevX=Dev14
+              '      VersionX=RVersion14
+               'Case SysName15
+      '              DevX=Dev15
+       '             VersionX=RVersion15
+        '       Case SysName16
+         '           DevX=Dev16
+          '          VersionX=RVersion16
+           '    Case SysName17
+            '        DevX=Dev17
+             '       VersionX=RVersion17
+              ' Case Else
+               '     Bug_Fields("BG_DETECTION_VERSION").Value = Null
+                '    Bug_Fields("BG_RESPONSIBLE").value=Null
+   '     End Select
+    'End If
+           Select Case Bug_Fields("BG_STATUS").value
+                  Case "新建"
+                       Bug_Fields("BG_RESPONSIBLE").value=DevX
+                       Bug_Fields("BG_DETECTION_VERSION").Value=VersionX
+
+                  Case "已关闭"
+                       Bug_Fields("BG_CLOSING_DATE").Value=TDConnection.ServerTime
+                       Bug_Fields("BG_CLOSING_VERSION").value = VersionX
+                       Bug_Fields("BG_USER_TEMPLATE_14").Value = TDConnection.UserName & ":" & TDConnection.ServerTime
+                       Bug_Fields("BG_DEV_COMMENTS").value = Bug_Fields("BG_DEV_COMMENTS").Value & _
+                       "<html><body><b><span lang=EN-US style = 'color:#000FF'>_____________________________________________</span></b></body></html>"& vbCrLf & _
+                       "<html><body><b><span lang=EN-US style = 'color:#000FF'>" &_
+                        TDConnection.UserName & "： "& TDConnection.ServerTime &_
+                        "  Closed at ："& Bug_Fields("BG_CLOSING_VERSION").Value &_
+                        "</span></b></body></html>"& vbCrLf
+                  Case "重新打开"
+                       Bug_Fields("BG_DETECTION_VERSION").Value = VersionX
+                       Bug_Fields("BG_USER_TEMPLATE_03").Value=Bug_Fields("BG_USER_TEMPLATE_03").Value+1
+                       Bug_Fields("BG_USER_TEMPLATE_14").Value = TDConnection.UserName & ":" & TDConnection.ServerTime
+                  Case "延期"
+                       Bug_Fields("BG_USER_TEMPLATE_12").Value=Bug_Fields("BG_USER_TEMPLATE_12").Value+1
+                       If User.IsInGroup("研发组") Or User.IsInGroup("Project Manager") Then
+                          Bug_Fields("BG_DEV_COMMENTS").IsRequired = True
+                          Bug_Fields.Field("BG_USER_TEMPLATE_11").IsRequired = True
+                          Bug_Fields.Field("BG_USER_TEMPLATE_08").IsRequired = True
+                          Bug_Fields("BG_RESPONSIBLE").Value = TDConnection.UserName
+                          'Bug_Fields("BG_USER_TEMPLATE_09").IsRequired = True   '延期原因
+                          Bug_Fields("BG_USER_TEMPLATE_12").IsReadOnly = True
+                       End If
+                  Case "打开"
+                       Bug_Fields("BG_DETECTION_VERSION").Value = Bug_Fields("BG_DETECTION_VERSION").Value
+                  Case "已修复"
+                       If User.IsInGroup("研发组")  Or User.IsInGroup("Project Manager") Then
+                          Bug_Fields("BG_USER_TEMPLATE_07").Value=TDConnection.ServerTime
+                          Bug_Fields("BG_USER_TEMPLATE_07").IsReadOnly = True
+                          Bug_Fields("BG_USER_TEMPLATE_13").Value = TDConnection.UserName & ":" & TDConnection.ServerTime
+                          Bug_Fields("BG_RESPONSIBLE").Value = TDConnection.UserName
+                       End If
+                  Case "无效"
+                       If User.IsInGroup("测试组") Then
+                          Bug_Fields("BG_USER_TEMPLATE_10").IsRequired = True   '无效原因
+                       End If
+                  Case Else
+                       Bug_Fields("BG_DETECTION_VERSION").Value = Null
+                       Bug_Fields("BG_RESPONSIBLE").value=Null
+           End Select
+     End If
+  On Error GoTo 0
+End Sub

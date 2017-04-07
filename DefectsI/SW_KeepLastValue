@@ -1,0 +1,57 @@
+Sub SW_KeepLastValue(action)
+     Dim tdc, vals, flds
+     Dim uset, pairs, pair
+     Dim bld
+     On Error Resume Next
+     bld = ""
+     Set tdc = TDConnection
+     Set uset = tdc.UserSettings
+     If action = "SET" Then
+        flds = Array("BG_DETECTION_VERSION", _
+        "BG_STATUS","BG_RESPONSIBLE")
+        vals = ""
+     For i = 0 To UBound(flds)
+     If vals <> "" Then vals = vals & ";"
+        vals = vals & flds(i) & "=" & Bug_Fields(flds(i)).Value
+     Next
+     'Open categOry KeepLValueSetting
+     uset.Open ("KeepLValueSetting")
+     'Setting KeepValueFields in categOry KeepLValueSetting
+     uset.Value("KeepValueFields") = vals
+     uset.Close
+     End If 'SET
+
+     If action = "GET" Then
+        uset.Open ("KeepLValueSetting")
+        vals = uset.Value("KeepValueFields")
+     If vals <> "" Then
+        pairs = Split(vals, ";")
+     For i = 0 To UBound(pairs)
+         pair = Split(pairs(i), "=")
+     If UBound(pair) = 1 Then
+          Select Case pair(0)
+          Case "BG_STATUS"
+               bld = pair(1)
+          Case Else
+             If Bug_Fields(pair(0)).Value = "" Then
+                Bug_Fields(pair(0)).Value = pair(1)
+             End If
+          End Select
+     If Bug_Fields("BG_DETECTION_VERSION").Value <> "" _
+     AND Bug_Fields("BG_RESPONSIBLE").Value<>"" _
+     And bld <> "" Then
+     SW_SetLists_VersionsBuilds _
+     "BG_DETECTION_VERSION", _
+     "BG_STATUS","BG_RESPONSIBLE"
+     Bug_Fields("BG_STATUS").Value = bld
+     If Err.Number <> 0 Then Err.Clear
+     End If 'Bug_Fields
+     End If 'UBound(pair)
+     Next
+     End If 'vals <> ""
+     End If 'GET
+     uset.Close
+     PrintError ("Keep Last Value (" & action & ")")
+
+     On Error GoTo 0
+End Sub

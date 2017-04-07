@@ -1,0 +1,34 @@
+'开发人员或者项目经理添加注释时，添加默认格式
+Function Defects_ActionCanExecute(ActionName)
+  On Error Resume Next
+
+    Dim Template
+        Template = "<html><body>"
+        Template = Template & "<br><font color=""Navy"">-----------------请添加描述信息------------------</font></br>"
+        Template = Template & "<br></br>"
+        Template = Template & "<br><font color=""Black"">缺陷原因：</br>"
+        Template = Template & "<br><font color=""Black"">处理方法：</font></br>"
+        Template = Template & "<br><font color=""Black"">验证版本：</font></br>"
+        Template = Template & "</body></html>"
+
+   If User.IsInGroup("Developer_1") Or User.IsInGroup("project manager1") Then
+
+      If  ActionName = "FieldComments.AddComment" Then
+
+          If Bug_Fields("BG_DEV_COMMENTS").Value = "" Then
+
+            Bug_Fields("BG_DEV_COMMENTS").Value =  Template
+
+            Else
+
+                Bug_Fields("BG_DEV_COMMENTS").Value =Bug_Fields("BG_DEV_COMMENTS").Value & Template
+
+          End If
+
+      End If
+
+    End if
+
+  On Error GoTo 0
+
+End Function

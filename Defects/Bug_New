@@ -1,0 +1,23 @@
+ '***************设置新建缺陷时，内容格式 **************
+Sub Bug_New
+  On Error Resume Next
+      Dim Template
+  Template = "<html><body>"
+  Template = Template & "<font color=""#000080"">操作步骤：</font><br>"
+  Template = Template & "<font color=""#000000"">     1、</font><br>"
+  Template = Template & "<font color=""#000000"">     2、</font><br><br>"
+  Template = Template & "<font color=""#000080"">实际结果：</font>"
+  Template = Template & "<font color=""#FF0000"">    </font><br><br>"
+  Template = Template & "<font color=""#000080"">预期结果：</font>"
+  Template = Template & "<font color=""#006000"">    </font><br><br>"
+  Template = Template & "<font color=""#000080"">备    注：</font>"
+  Template = Template & "<font color=""#737300"">    </font><br>"
+  Template = Template & "</body></html>"
+
+  Bug_Fields("BG_DESCRIPTION").Value = Template
+
+  Bug_Fields.Field("BG_STATUS").Value="新建"
+
+  WizardFieldCust_Add ' 由向导添加
+  On Error GoTo 0
+End Sub

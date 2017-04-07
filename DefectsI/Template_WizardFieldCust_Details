@@ -1,0 +1,126 @@
+Sub Template_WizardFieldCust_Details
+' 该子例程已由“脚本生成器 - 缺陷详细信息 字段自定义”自动生成。
+' 您所做的任何修改将在您下一次使用生成器时被覆盖。
+
+    If  User.IsInGroup("Project Manager") Then
+        Template_SetFieldApp "BG_ACTUAL_FIX_TIME", True, False, 0, 0
+        Template_SetFieldApp "BG_BUG_ID", True, False, 0, 1
+        Template_SetFieldApp "BG_CLOSING_DATE", True, False, 0, 2
+        Template_SetFieldApp "BG_CLOSING_VERSION", True, False, 0, 3
+        Template_SetFieldApp "BG_DESCRIPTION", True, False, 0, 4
+        Template_SetFieldApp "BG_DETECTED_BY", True, True, 0, 5
+        Template_SetFieldApp "BG_DETECTED_IN_RCYC", True, False, 0, 6
+        Template_SetFieldApp "BG_DETECTED_IN_REL", True, False, 0, 7
+        Template_SetFieldApp "BG_DETECTION_DATE", True, False, 0, 8
+        Template_SetFieldApp "BG_DETECTION_VERSION", True, False, 0, 9
+        Template_SetFieldApp "BG_DEV_COMMENTS", True, False, 0, 10
+        Template_SetFieldApp "BG_ESTIMATED_FIX_TIME", True, False, 0, 11
+        Template_SetFieldApp "BG_PLANNED_CLOSING_VER", True, False, 0, 12
+        Template_SetFieldApp "BG_PRIORITY", True, False, 0, 13
+        Template_SetFieldApp "BG_PROJECT", True, False, 0, 14
+        Template_SetFieldApp "BG_REPRODUCIBLE", False, False, 0, 15
+        Template_SetFieldApp "BG_RESPONSIBLE", True, True, 0, 16
+        Template_SetFieldApp "BG_SEVERITY", True, True, 0, 17
+        Template_SetFieldApp "BG_STATUS", True, False, 0, 18
+        Template_SetFieldApp "BG_SUBJECT", True, False, 0, 19
+        Template_SetFieldApp "BG_SUMMARY", True, True, 0, 20
+        Template_SetFieldApp "BG_TARGET_RCYC", True, False, 0, 21
+        Template_SetFieldApp "BG_TARGET_REL", True, False, 0, 22
+       'Template_SetFieldApp "BG_USER_TEMPLATE_15", True, True, 0, 23
+        Template_SetFieldApp "BG_USER_TEMPLATE_01", True, True, 0, 24
+        Template_SetFieldApp "BG_USER_TEMPLATE_02", True, False, 0, 25
+        Template_SetFieldApp "BG_USER_TEMPLATE_03", False, False, 0, 26
+        Template_SetFieldApp "BG_USER_TEMPLATE_04", True, False, 0, 27
+        Template_SetFieldApp "BG_USER_TEMPLATE_05", True, False, 0, 28
+        Template_SetFieldApp "BG_USER_TEMPLATE_06", True, True, 0, 29
+        Template_SetFieldApp "BG_USER_TEMPLATE_07", False, False, 0, 30
+        Template_SetFieldApp "BG_USER_TEMPLATE_08", True, False, 0, 31
+        Template_SetFieldApp "BG_USER_TEMPLATE_09", False, False, 0, 32
+        Template_SetFieldApp "BG_USER_TEMPLATE_10", False, False, 0, 33
+        Template_SetFieldApp "BG_USER_TEMPLATE_11", True, False, 0, 34
+        Template_SetFieldApp "BG_USER_TEMPLATE_12", False, False, 0, 35
+        Template_SetFieldApp "BG_USER_TEMPLATE_13", False, False, 0, 36
+        Template_SetFieldApp "BG_USER_TEMPLATE_14", False, False, 0, 37
+        Template_SetFieldApp "BG_VTS", True, False, 0, 38
+    ElseIf User.IsInGroup("测试组") Then
+        Template_SetFieldApp "BG_SUMMARY", True, True, 0, 0
+        Template_SetFieldApp "BG_USER_TEMPLATE_11", False, False, 0, 1
+        Template_SetFieldApp "BG_BUG_ID", True, False, 0, 2
+        'Template_SetFieldApp "BG_USER_TEMPLATE_15", True, True, 0, 3
+        Template_SetFieldApp "BG_USER_TEMPLATE_01", True, True, 0, 4
+        Template_SetFieldApp "BG_USER_TEMPLATE_02", True, True, 0, 5
+        Template_SetFieldApp "BG_USER_TEMPLATE_05", True, False, 0, 6
+        Template_SetFieldApp "BG_DETECTED_BY", True, True, 0, 7
+        Template_SetFieldApp "BG_RESPONSIBLE", True, True, 0, 8
+        Template_SetFieldApp "BG_SEVERITY", True, True, 0, 9
+        Template_SetFieldApp "BG_DETECTION_VERSION", True, True, 0, 10
+        Template_SetFieldApp "BG_USER_TEMPLATE_04", False, False, 0, 11
+        Template_SetFieldApp "BG_STATUS", True, False, 0, 12
+        Template_SetFieldApp "BG_DESCRIPTION", True, False, 0, 13
+        Template_SetFieldApp "BG_DEV_COMMENTS", True, False, 0, 14
+        Template_SetFieldApp "BG_USER_TEMPLATE_06", True, True, 0, 15
+        Template_SetFieldApp "BG_USER_TEMPLATE_09", False, False, 0, 16
+        Template_SetFieldApp "BG_USER_TEMPLATE_08", False , False, 0, 17
+        Template_SetFieldApp "BG_USER_TEMPLATE_12", False , False, 0, 18
+        Template_SetFieldApp "BG_USER_TEMPLATE_13", False , False, 0, 19
+        Template_SetFieldApp "BG_USER_TEMPLATE_14", False, False, 0, 20
+        Template_SetFieldApp "BG_USER_TEMPLATE_10", False, False, 0, 21
+        Template_SetFieldApp "BG_ACTUAL_FIX_TIME", False, False, 0, 22
+        Template_SetFieldApp "BG_CLOSING_DATE", False, False, 0, 23
+        Template_SetFieldApp "BG_CLOSING_VERSION", False, False, 0, 24
+        Template_SetFieldApp "BG_DETECTED_IN_RCYC", False, False, 0, 25
+        Template_SetFieldApp "BG_DETECTED_IN_REL", False, False, 0, 26
+        Template_SetFieldApp "BG_DETECTION_DATE", False, False, 0, 27
+        Template_SetFieldApp "BG_ESTIMATED_FIX_TIME", False, False, 0, 28
+        Template_SetFieldApp "BG_PLANNED_CLOSING_VER", False, False, 0, 29
+        Template_SetFieldApp "BG_PRIORITY", False, False, 0, 30
+        Template_SetFieldApp "BG_PROJECT", False, False, 0, 31
+        Template_SetFieldApp "BG_REPRODUCIBLE", False, False, 0, 32
+        Template_SetFieldApp "BG_SUBJECT", False, False, 0, 33
+        Template_SetFieldApp "BG_TARGET_RCYC", False, False, 0, 34
+        Template_SetFieldApp "BG_TARGET_REL", False, False, 0, 35
+        Template_SetFieldApp "BG_USER_TEMPLATE_03", False, False, 0, 36
+        Template_SetFieldApp "BG_USER_TEMPLATE_07", False, False, 0, 37
+        Template_SetFieldApp "BG_VTS", False, False, 0, 38
+    ElseIf User.IsInGroup("研发组") Then
+        Template_SetFieldApp "BG_BUG_ID", True, False, 0, 0
+        Template_SetFieldApp "BG_PRIORITY", False, False, 0, 1
+        Template_SetFieldApp "BG_DESCRIPTION", True, False, 0, 2
+        Template_SetFieldApp "BG_DETECTED_BY", True, True, 0, 3
+        Template_SetFieldApp "BG_DETECTION_DATE", True, True, 0, 4
+        'Template_SetFieldApp "BG_USER_TEMPLATE_15", True, True, 0, 5
+        Template_SetFieldApp "BG_USER_TEMPLATE_01", True, True, 0, 6
+        Template_SetFieldApp "BG_USER_TEMPLATE_02", True, True, 0, 7
+        Template_SetFieldApp "BG_STATUS", True, False, 0, 8
+        Template_SetFieldApp "BG_DEV_COMMENTS", True, False, 0, 9
+        Template_SetFieldApp "BG_USER_TEMPLATE_03", False, False, 0, 10
+        Template_SetFieldApp "BG_REPRODUCIBLE", True, False, 0, 11
+        Template_SetFieldApp "BG_RESPONSIBLE", False, False, 0, 12
+        Template_SetFieldApp "BG_SEVERITY", True, True, 0, 13
+        Template_SetFieldApp "BG_SUMMARY", True, True, 0, 14
+        Template_SetFieldApp "BG_USER_TEMPLATE_04", False, True, 0, 15
+        Template_SetFieldApp "BG_USER_TEMPLATE_05", True, False, 0, 16
+        Template_SetFieldApp "BG_USER_TEMPLATE_06", True, True, 0, 17
+        Template_SetFieldApp "BG_USER_TEMPLATE_07", False, False, 0, 18
+        Template_SetFieldApp "BG_USER_TEMPLATE_10", False, False, 0, 19
+        Template_SetFieldApp "BG_USER_TEMPLATE_09", False, False, 0, 20
+        Template_SetFieldApp "BG_USER_TEMPLATE_08", True, False, 0, 21
+        Template_SetFieldApp "BG_USER_TEMPLATE_12", False, False, 0, 22
+        Template_SetFieldApp "BG_USER_TEMPLATE_13", False, False, 0, 23
+        Template_SetFieldApp "BG_USER_TEMPLATE_14", False, False, 0, 24
+        Template_SetFieldApp "BG_USER_TEMPLATE_11", True, False, 0, 25
+        Template_SetFieldApp "BG_ACTUAL_FIX_TIME", False, False, 0, 26
+        Template_SetFieldApp "BG_CLOSING_DATE", False, False, 0, 27
+        Template_SetFieldApp "BG_CLOSING_VERSION", False, False, 0, 28
+        Template_SetFieldApp "BG_DETECTED_IN_RCYC", False, False, 0, 29
+        Template_SetFieldApp "BG_DETECTED_IN_REL", False, False, 0, 30
+        Template_SetFieldApp "BG_DETECTION_VERSION", False, False, 0, 31
+        Template_SetFieldApp "BG_ESTIMATED_FIX_TIME", False, False, 0, 32
+        Template_SetFieldApp "BG_PLANNED_CLOSING_VER", False, False, 0, 33
+        Template_SetFieldApp "BG_PROJECT", False, False, 0, 34
+        Template_SetFieldApp "BG_SUBJECT", False, False, 0, 35
+        Template_SetFieldApp "BG_TARGET_RCYC", False, False, 0, 36
+        Template_SetFieldApp "BG_TARGET_REL", False, False, 0, 37
+        Template_SetFieldApp "BG_VTS", False, False, 0, 38
+    End If
+End Sub

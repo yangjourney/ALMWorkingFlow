@@ -1,0 +1,53 @@
+Function ActionCanExecute(ActionName)
+
+  On Error Resume Next
+
+ If User.IsInGroup("测试组") then
+
+    ActionCanExecute = True
+
+  Select Case ActionName
+
+    Case "UserDefinedActions.缺陷_test1"
+
+      Set shell = CreateObject("Wscript.Shell")
+
+            shell.Run"\\127.0.0.1\2014年test1缺陷汇总率汇总表\test保障-02缺陷率汇总表（四月）.xlsx"
+
+            Set shell = Nothing
+
+    Case "UserDefinedActions.缺陷_test2"
+
+      Set shell = CreateObject("Wscript.Shell")
+
+            shell.Run"\\127.0.0.1\2014年test2缺陷汇总率汇总表\test-02缺陷率汇总表（四月）.xlsx"
+
+            Set shell = Nothing
+    Case "UserDefinedActions.缺陷_版本备份"
+
+      Set shell = CreateObject("Wscript.Shell")
+
+            shell.Run"ftp://127.0.0.1"
+
+            Set shell = Nothing
+    Case "UserDefinedActions.缺陷_数据库备份"
+
+      Set shell = CreateObject("Wscript.Shell")
+
+            shell.Run"ftp://127.0.0.1"
+
+            Set shell = Nothing
+    Case "UserDefinedActions.缺陷_数据库临时备份"
+
+      Set shell = CreateObject("Wscript.Shell")
+
+            shell.Run"ftp://127.0.0.1"
+
+            Set shell = Nothing
+
+  End Select
+
+ End If
+
+  On Error GoTo 0
+End Function

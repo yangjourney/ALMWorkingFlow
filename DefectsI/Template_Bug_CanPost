@@ -1,0 +1,10 @@
+Function Template_Bug_CanPost
+  On Error Resume Next
+  Template_Bug_CanPost = True
+  If Bug_Fields("BG_BUG_ID").Value = "" Then
+       SW_KeepLastValue ("SET")
+  End If
+  'call Bug_CanPost
+  Template_Bug_CanPost = Template_DefaultRes
+  On Error GoTo 0
+End Function

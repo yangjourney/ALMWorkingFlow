@@ -1,0 +1,34 @@
+
+ '*************设置新增缺陷界面显示的字段、顺序 *******************
+Sub WizardFieldCust_Add
+' 该子例程已由“脚本生成器 - 添加缺陷 字段自定义”自动生成。
+' 您所做的任何修改将在您下一次使用生成器时被覆盖。
+
+        SetFieldApp "BG_BUG_ID", True, False, 0, 0
+        SetFieldApp "BG_SUMMARY", True, True, 0, 1
+        SetFieldApp "BG_DESCRIPTION", True, True, 0, 2
+        SetFieldApp "BG_PROJECT", True, True, 0, 3
+        SetFieldApp "BG_USER_TEMPLATE_04", True, False, 0, 4
+        SetFieldApp "BG_DETECTION_VERSION", True, True, 0, 5
+        SetFieldApp "BG_SEVERITY", True, True, 0, 6
+        SetFieldApp "BG_USER_TEMPLATE_02", True, True, 0, 7
+        SetFieldApp "BG_RESPONSIBLE", True, True, 0, 8
+        SetFieldApp "BG_STATUS", True, True, 0, 9
+        SetFieldApp "BG_DETECTED_BY", True, True, 0, 10
+        SetFieldApp "BG_DETECTION_DATE", True, True, 0, 11
+        SetFieldApp "BG_DEV_COMMENTS", True, False, 0, 12
+        SetFieldApp "BG_PRIORITY", True, False, 0, 13
+        SetFieldApp "BG_REPRODUCIBLE", True, False, 0, 14
+        SetFieldApp "BG_ESTIMATED_FIX_TIME", False, False, 0, 15
+        SetFieldApp "BG_CLOSING_DATE", False, False, 0, 16
+        SetFieldApp "BG_CLOSING_VERSION", False, False, 0, 17
+        SetFieldApp "BG_PLANNED_CLOSING_VER", False, False, 0, 18
+        SetFieldApp "BG_DETECTED_IN_REL", False, False, 0, 19
+        SetFieldApp "BG_DETECTED_IN_RCYC", False, False, 0, 20
+        SetFieldApp "BG_TARGET_REL", False, False, 0, 21
+        SetFieldApp "BG_TARGET_RCYC", False, False, 0, 22
+        SetFieldApp "BG_ACTUAL_FIX_TIME", False, False, 0, 23
+        SetFieldApp "BG_VTS", False, False, 0, 24
+        SetFieldApp "BG_SUBJECT", False, False, 0, 25
+
+End Sub

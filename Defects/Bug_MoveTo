@@ -1,0 +1,14 @@
+Sub Bug_MoveTo
+  On Error Resume Next
+  '***************已关闭的BUG除了状态、关闭于版本可以修改,其他所有字段都不可修改，管理员除外*******
+  If User.UserName <> "qcadmin" and Bug_Fields("BG_STATUS" ).value= "已关闭" Then
+     For i=0 to Bug_Fields.Count
+         Bug_Fields.FieldById(i).IsReadOnly = True
+     Next
+        Bug_Fields("BG_STATUS").IsReadOnly =  FALSE
+        Bug_Fields("BG_CLOSING_VERSION").IsReadOnly =  FALSE
+  End If
+
+  WizardFieldCust_Details ' 由向导添加
+  On Error GoTo 0
+End Sub

@@ -1,0 +1,21 @@
+Sub Bug_FieldChange(FieldName)
+  On Error Resume Next
+  '********* 关闭BUG时【关闭于版本】字段必填，改为其他状态时清空该字段*************
+    If FieldName= "BG_STATUS" then
+
+       If Bug_Fields("BG_STATUS").value="已关闭" then
+          Bug_Fields("BG_CLOSING_VERSION").IsRequired=True
+
+       Else
+
+           Bug_Fields("BG_CLOSING_VERSION").IsRequired=False
+           Bug_Fields("BG_CLOSING_VERSION").Value = null
+
+       End If
+
+    End If
+
+        PrintError "Bug_FieldChange"
+
+  On Error GoTo 0
+End Sub
