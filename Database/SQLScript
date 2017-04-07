@@ -1,0 +1,83 @@
+--以下是个人统计QC缺陷的一些SQL，很简单。
+--1、	修改新项目数据库
+--新建的项目创建好后，需要添加如下的几个表和存储过程备用，具体如下：
+--系统名称表创建完成后，根据项目的各子软件名称手动将其填入表中即可。
+CREATE TABLE [dbo].[系统名称](
+	[系统名称] [nvarchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [td].[CountBug](
+	[序号] [int] IDENTITY(1,1) NOT NULL,
+	[系统名称] [varchar](255) NULL,
+	[缺陷总数] [int] NULL,
+	[年度] [varchar](255) NULL,
+	[月份] [varchar](255) NULL,
+	[4 - 低] [int] NULL,
+	[3 - 中] [int] NULL,
+	[2 - 高] [int] NULL,
+	[1 - 非常高] [int] NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+CREATE PROCEDURE [dbo].[CountBug] 
+AS  
+BEGIN  
+-- 清理统计数据
+DELETE td.CountBug 
+	WHERE 年度 = (SELECT CAST((SELECT DATEPART("YEAR",GETDATE())) AS VARCHAR(20)))
+	  AND 月份 = (SELECT CAST((SELECT DATEPART("MONTH",GETDATE())) AS VARCHAR(20)))
+
+-- 按系统名称和严重程度对当前年,当前月的bug总数进行分组统计, 并插入到临时表中
+-- 列: 系统名称,等级,缺陷总数,年度,月份
+SELECT h.系统名称 ,b.等级,b.缺陷总数,b.年度,b.月份 
+	INTO #tempa FROM 系统名称 h LEFT JOIN	
+	(
+SELECT BG_USER_TEMPLATE_01 AS 系统名称,BG_SEVERITY AS 等级,COUNT(*)AS 缺陷总数,
+	(SELECT CAST((SELECT DATEPART("YEAR",GETDATE())) AS	VARCHAR(20))) AS 年度,
+	(SELECT CAST((SELECT DATEPART("Month",GETDATE())) AS VARCHAR(20))) AS 月份 
+	FROM td.BUG 
+	WHERE
+	 MONTH (CONVERT(DATETIME,BG_DETECTION_DATE))=(SELECT CAST((SELECT DATEPART("MONTH",GETDATE())) AS VARCHAR(20))) 
+	AND YEAR(CONVERT(DATETIME,BG_DETECTION_DATE))=(SELECT CAST((SELECT DATEPART("YEAR",GETDATE())) AS VARCHAR(20)))
+--在这里的查询条件中，可以根据项目需要，添加对项目名称小软件的过滤，比如系统和是放在一起的，就要分别进行统计汇总。	
+	AND BG_STATUS <>'无效'  AND (BG_USER_TEMPLATE_06 <>'意见建议' or BG_USER_TEMPLATE_06 is NULL)  GROUP BY BG_USER_TEMPLATE_01 ,BG_SEVERITY	
+	) b
+	 ON h.系统名称 = b.系统名称
+
+	--BG_USER_01 = 系统名称, BG_SEVERITY = 严重程度
+
+-- 查询出临时表中的数据,然后按系统名称进行分组统计, 写入到表CountBug
+-- 列: 系统名称,缺陷总数,年度,月份,等级的缺陷数,等级的缺陷数,等级的缺陷数,等级的缺陷数
+INSERT INTO [td].[CountBug]
+	SELECT 
+	系统名称,
+	缺陷总数=(SUM(CASE WHEN 等级='1 - 非常高' THEN 缺陷总数 ELSE 0 END)+
+	SUM(CASE WHEN 等级='2 - 高' THEN 缺陷总数 ELSE 0 END)+
+	SUM(CASE WHEN 等级='3 - 中' THEN 缺陷总数 ELSE 0 END)+
+	SUM(CASE WHEN 等级='4 - 低' THEN 缺陷总数 ELSE 0 END)),
+	(SELECT CAST((SELECT DATEPART("YEAR",GETDATE())) AS VARCHAR(20))) AS 年度,		
+	(SELECT CAST((SELECT DATEPART("MONTH",GETDATE())) AS VARCHAR(20))) AS 月份,
+	等级的缺陷数=SUM(CASE WHEN 等级='1 - 非常高' THEN 缺陷总数 ELSE 0 END),
+	等级的缺陷数=SUM(CASE WHEN 等级='2 - 高' THEN 缺陷总数 ELSE 0 END),
+	等级的缺陷数=SUM(CASE WHEN 等级='3 - 中' THEN 缺陷总数 ELSE 0 END),
+	等级的缺陷数=SUM(CASE WHEN 等级='4 - 低' THEN 缺陷总数 ELSE 0 END)
+	FROM #tempa
+	GROUP BY 系统名称 
+
+	DROP TABLE #tempa
+END  
+
+GO
+
+--关于适用：
+--每个月都会要求提交缺陷的汇总情况，那么只需要打开数据库，选择对应的名称，新建查询，执行
+--EXEC [CountBug]
+--SELECT  * FROM  TD.CountBug
+--然后把对应年份月份的数据贴入对应的EXCEL表里面即可
+--以上就是对数据库表的一些简单操作
+--老生常谈,切忌不要随便乱改数据库,尤其是表和表数据,否则后果自负.
